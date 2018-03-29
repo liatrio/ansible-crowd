@@ -5,17 +5,19 @@
       become: yes
     - role: java_internal
       become: yes
-    - role: ANXS.postgresql
+    - role: ansible-role-postgres
       become: yes
       #override os variables
       ansible_distribution: 'RedHat'
       ansible_distribution_major_version: 6
       postgresql_bin_directory: '/usr/bin'
       postgresql_service_name: 'postgresql96'
-      postgresql_conf_directory: '/var/lib/pgsql96/data'
-      postgresql_varlib_directory_name: 'pgsql96'
-      postgresql_data_directory: '/var/lib/{{ postgresql_varlib_directory_name }}/data'
-      
+      postgresql_conf_directory: '/data/pgsql96/data'
+      postgresql_varlib_directory_name: 'postgresql'
+      postgresql_data_directory: "/data/{{ postgresql_varlib_directory_name }}/{{ postgresql_version }}/{{ postgresql_cluster_name }}"
+      postgresql_pid_directory: "/var/run/postgresql"
+      postgresql_external_pid_file: "{{ postgresql_pid_directory }}/{{ postgresql_version }}-{{ postgresql_cluster_name }}.pid"
+
       # Basic settings
       postgresql_version: 9.6
       postgresql_encoding: 'UTF-8'
